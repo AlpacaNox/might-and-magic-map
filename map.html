@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+    
+        <!-- Leaflet -->
+        <link rel="stylesheet" href="https://mm6.wiki/files/maps/leaflet/leaflet/leaflet.css" />
+        <script src="https://mm6.wiki/files/maps/leaflet/leaflet/leaflet.js"></script>
+        
+        <!-- Fullscreen button -->
+        <link rel="stylesheet" href="https://mm6.wiki/files/maps/leaflet/leaflet.fullscreen/Control.FullScreen.css" />
+        <script src="https://mm6.wiki/files/maps/leaflet/leaflet.fullscreen/Control.FullScreen.js"></script>
+        
+        <!-- Simple Graticule -->
+        <link rel="stylesheet" href="https://mm6.wiki/files/maps/leaflet/leaflet.SimpleGraticule/L.SimpleGraticule.css" />
+        <script src="https://mm6.wiki/files/maps/leaflet/leaflet.SimpleGraticule/L.SimpleGraticule.js"></script>       
+        
+        <!-- Pattern -->
+        <script src="https://mm6.wiki/files/maps/leaflet/leaflet.pattern/leaflet.pattern.js"></script> 
+    
+    </head>
+    <body>
+ 
+        <div id="map" style="position: absolute; top:0; left: 0; width: 100%; height: 100vh; background: #eee;"></div>
+ 
+        <script>
+
+        // Map bounds
+        
+        var stripes = new L.StripePattern( { angle: 45 } );
+        
+        BoundsPolygon = L.Polygon.extend({
+            options: {
+                fillPattern: stripes,
+                stroke: false,
+                fillOpacity: 0.2
+                }
+        });
+        
+        // Vertical bounds
+        
+        var clear = L.layerGroup([]);
+        
+        var bounds = L.layerGroup([
+
+            new BoundsPolygon([
+                [768, 0],
+                [768, 38],
+                [0, 38],
+                [0, 0]
+            ]),
+            new BoundsPolygon([
+                [768, 218],
+                [768, 294],
+                [0, 294],
+                [0, 218]
+            ]),
+            new BoundsPolygon([
+                [768, 474],
+                [768, 550],
+                [0, 550],
+                [0, 474]
+            ]),
+            new BoundsPolygon([
+                [768, 730],
+                [768, 806],
+                [0, 806],
+                [0, 730]
+            ]),
+            new BoundsPolygon([
+                [768, 986],
+                [768, 1062],
+                [0, 1062],
+                [0, 986]
+            ]),
+            new BoundsPolygon([
+                [768, 1242],
+                [768, 1280],
+                [0, 1280],
+                [0, 1242]
+            ]),
+            new BoundsPolygon([
+                [768, 1242],
+                [768, 1280],
+                [0, 1280],
+                [0, 1242]
+            ]),
+            
+            // Horizontal bounds
+
+            new BoundsPolygon([
+                [768, 0],
+                [768, 1280],
+                [730, 1280],
+                [730, 0]
+            ]),
+            new BoundsPolygon([
+                [550, 0],
+                [550, 1280],
+                [474, 1280],
+                [474, 0]
+            ]),
+            new BoundsPolygon([
+                [294, 0],
+                [294, 1280],
+                [218, 1280],
+                [218, 0]
+            ]),
+            new BoundsPolygon([
+                [38, 0],
+                [38, 1280],
+                [0, 1280],
+                [0, 0]
+            ]),
+        ]);
+        
+        var mapOverlay = {
+            "Clear": clear,
+            "Map bounds": bounds
+        };
+    
+          // Map setup
+          
+            var map = L.map('map', {
+                crs: L.CRS.Simple, 
+                maxZoom: 5,
+                layers: [clear, bounds],
+                fullscreenControl: true,
+                fullscreenControlOptions: {
+                    position: 'topleft'
+                }}).setView([85.8125, 1114.6875], 4);
+            
+            stripes.addTo(map);
+            
+            
+            L.control.layers(mapOverlay).addTo(map);
+            
+            // Set clear layer as active
+            
+            map.removeLayer(bounds);
+            map.addLayer(clear);
+            
+            // Map layers
+            
+            L.TileLayer.CustomLayer = L.TileLayer.extend({
+            posx: 1,
+            posy: 1,
+            getTileUrl: function(coords) {
+                if (this.options.posx !== 0) {
+                    coords.x = coords.x - (Math.pow(2, coords.z) * this.options.posx);
+                }
+                if (this.options.posy !== 0) {
+                    coords.y = coords.y + (Math.pow(2, coords.z) * this.options.posy);
+                }
+                return L.TileLayer.prototype.getTileUrl.call(this, coords);
+            }
+        });
+
+        L.tileLayer.CustomLayer = function(templateUrl, options) {
+            return new L.TileLayer.CustomLayer(templateUrl, options);
+        }
+
+        L.tileLayer.CustomLayer('https://mm6.wiki/files/maps/tiles/a3/{z}/tile_{x}_{y}.jpg', { noWrap: true, posx: 0, posy: 1 }).addTo(map);
+        L.tileLayer.CustomLayer('https://mm6.wiki/files/maps/tiles/b3/{z}/tile_{x}_{y}.jpg', { noWrap: true, posx: 1, posy: 1 }).addTo(map);
+        L.tileLayer.CustomLayer('https://mm6.wiki/files/maps/tiles/c3/{z}/tile_{x}_{y}.jpg', { noWrap: true, posx: 2, posy: 1 }).addTo(map);
+        L.tileLayer.CustomLayer('https://mm6.wiki/files/maps/tiles/d3/{z}/tile_{x}_{y}.jpg', { noWrap: true, posx: 3, posy: 1 }).addTo(map);
+        L.tileLayer.CustomLayer('https://mm6.wiki/files/maps/tiles/e3/{z}/tile_{x}_{y}.jpg', { noWrap: true, posx: 4, posy: 1 }).addTo(map);
+        L.tileLayer.CustomLayer('https://mm6.wiki/files/maps/tiles/a2/{z}/tile_{x}_{y}.jpg', { noWrap: true, posx: 0, posy: 2 }).addTo(map);
+        L.tileLayer.CustomLayer('https://mm6.wiki/files/maps/tiles/b2/{z}/tile_{x}_{y}.jpg', { noWrap: true, posx: 1, posy: 2 }).addTo(map);
+        L.tileLayer.CustomLayer('https://mm6.wiki/files/maps/tiles/c2/{z}/tile_{x}_{y}.jpg', { noWrap: true, posx: 2, posy: 2 }).addTo(map);
+        L.tileLayer.CustomLayer('https://mm6.wiki/files/maps/tiles/d2/{z}/tile_{x}_{y}.jpg', { noWrap: true, posx: 3, posy: 2 }).addTo(map);
+        L.tileLayer.CustomLayer('https://mm6.wiki/files/maps/tiles/e2/{z}/tile_{x}_{y}.jpg', { noWrap: true, posx: 4, posy: 2 }).addTo(map);
+        L.tileLayer.CustomLayer('https://mm6.wiki/files/maps/tiles/a1/{z}/tile_{x}_{y}.jpg', { noWrap: true, posx: 0, posy: 3 }).addTo(map);
+        L.tileLayer.CustomLayer('https://mm6.wiki/files/maps/tiles/b1/{z}/tile_{x}_{y}.jpg', { noWrap: true, posx: 1, posy: 3 }).addTo(map);
+        L.tileLayer.CustomLayer('https://mm6.wiki/files/maps/tiles/c1/{z}/tile_{x}_{y}.jpg', { noWrap: true, posx: 2, posy: 3 }).addTo(map);
+        L.tileLayer.CustomLayer('https://mm6.wiki/files/maps/tiles/d1/{z}/tile_{x}_{y}.jpg', { noWrap: true, posx: 3, posy: 3 }).addTo(map);
+        L.tileLayer.CustomLayer('https://mm6.wiki/files/maps/tiles/e1/{z}/tile_{x}_{y}.jpg', { noWrap: true, posx: 4, posy: 3 }).addTo(map);
+
+        // create custom icon
+        
+        var InnIcon = L.icon({
+            iconUrl: 'https://mm6.wiki/archive/graphics/maps/icons/beer-stein.svg',
+            iconSize: [32, 32], // size of the icon
+        });
+        var ArmorIcon = L.icon({
+            iconUrl: 'https://mm6.wiki/archive/graphics/maps/icons/visored-helm.svg',
+            iconSize: [32, 32], // size of the icon
+        });
+        var QuestIcon = L.icon({
+            iconUrl: 'https://mm6.wiki/archive/graphics/maps/icons/uncertainty.svg',
+            iconSize: [32, 32], // size of the icon
+        });
+        var StablesIcon = L.icon({
+            iconUrl: 'https://mm6.wiki/archive/graphics/maps/icons/horse-head.svg',
+            iconSize: [32, 32], // size of the icon
+        });
+
+        //L.marker([35.317366, 97.646484], {icon: InnIcon}).addTo(map).bindPopup("The Will o' Wisp inn. 10 Food for 9 gold. Rest for 10 gold.");
+        //L.marker([25.878994, 79.453125], {icon: QuestIcon}).addTo(map).bindPopup("Quest: Retrieve the harp from the Dragoon's Caverns south of Castle Ironfist and return it to Andrew Besper in Castle Ironfist.");
+        //L.marker([18.895893, 91.582031], {icon: ArmorIcon}).addTo(map).bindPopup("Metalweave Armory. Buy: L2 Leather, Chainmail, Shield, Helm or Gauntlets. Special: L3 Leather, Helm or Gauntlets.");
+        //L.marker([14.43468, 84.199219], {icon: StablesIcon}).addTo(map).bindPopup("Royal Lines. New Sorpigal, M, W, F (2 days), Free Haven, S, Tu (4 days), Arena, Sun (1 day)");
+        // Default Stripes.
+        
+        // Map coordinates on right click
+        
+          map.on("contextmenu", function (event) {
+            console.log("Coordinates: " + event.latlng.toString());
+        });
+        
+        // Map grid setup
+        
+            var options = {interval: 256,
+                showOriginLabel: false,
+                redraw: 'move',
+            };
+            L.simpleGraticule(options).addTo(map);
+            
+        </script>
+    </body>
+</html>
