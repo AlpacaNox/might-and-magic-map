@@ -9,11 +9,13 @@
         <script src="https://mm6.wiki/files/maps/leaflet/leaflet/leaflet.js"></script>
         
         <!-- Fullscreen button -->
-        <link rel="stylesheet" href="https://mm6.wiki/files/maps/leaflet/leaflet.fullscreen/Control.FullScreen.css" />
+        <link rel="stylesheet" href="https://mm6.wiki/files/maps/leaflet/leaflet.fullscreen/Control.FullScreen.css" />
+
         <script src="https://mm6.wiki/files/maps/leaflet/leaflet.fullscreen/Control.FullScreen.js"></script>
         
         <!-- Simple Graticule -->
-        <link rel="stylesheet" href="https://mm6.wiki/files/maps/leaflet/leaflet.SimpleGraticule/L.SimpleGraticule.css" />
+        <link rel="stylesheet" href="https://mm6.wiki/files/maps/leaflet/leaflet.SimpleGraticule/L.SimpleGraticule.css" />
+
         <script src="https://mm6.wiki/files/maps/leaflet/leaflet.SimpleGraticule/L.SimpleGraticule.js"></script>       
         
         <!-- Pattern -->
@@ -28,12 +30,15 @@
 
         // Map bounds
         
-        var stripes = new L.StripePattern( { angle: 45 } );
+        var stripes = new L.StripePattern( { angle: 45 } );
+
         
         BoundsPolygon = L.Polygon.extend({
             options: {
-                fillPattern: stripes,
-                stroke: false,
+                fillPattern: stripes,
+
+                stroke: false,
+
                 fillOpacity: 0.2
                 }
         });
@@ -44,80 +49,126 @@
         
         var bounds = L.layerGroup([
 
-            new BoundsPolygon([
-                [768, 0],
-                [768, 38],
-                [0, 38],
+            new BoundsPolygon([
+
+                [768, 0]
+,
+                [768, 38],
+
+                [0, 38],
+
                 [0, 0]
             ]),
-            new BoundsPolygon([
-                [768, 218],
-                [768, 294],
-                [0, 294],
+            new BoundsPolygon([
+
+                [768, 218]
+,
+                [768, 294],
+
+                [0, 294],
+
                 [0, 218]
             ]),
-            new BoundsPolygon([
-                [768, 474],
-                [768, 550],
-                [0, 550],
+            new BoundsPolygon([
+
+                [768, 474]
+,
+                [768, 550],
+
+                [0, 550],
+
                 [0, 474]
             ]),
-            new BoundsPolygon([
-                [768, 730],
-                [768, 806],
-                [0, 806],
+            new BoundsPolygon([
+
+                [768, 730]
+,
+                [768, 806],
+
+                [0, 806],
+
                 [0, 730]
             ]),
-            new BoundsPolygon([
-                [768, 986],
-                [768, 1062],
-                [0, 1062],
+            new BoundsPolygon([
+
+                [768, 986]
+,
+                [768, 1062],
+
+                [0, 1062],
+
                 [0, 986]
             ]),
-            new BoundsPolygon([
-                [768, 1242],
-                [768, 1280],
-                [0, 1280],
+            new BoundsPolygon([
+
+                [768, 1242]
+,
+                [768, 1280],
+
+                [0, 1280],
+
                 [0, 1242]
             ]),
-            new BoundsPolygon([
-                [768, 1242],
-                [768, 1280],
-                [0, 1280],
+            new BoundsPolygon([
+
+                [768, 1242]
+,
+                [768, 1280],
+
+                [0, 1280],
+
                 [0, 1242]
             ]),
             
             // Horizontal bounds
 
-            new BoundsPolygon([
-                [768, 0],
-                [768, 1280],
-                [730, 1280],
+            new BoundsPolygon([
+
+                [768, 0]
+,
+                [768, 1280],
+
+                [730, 1280],
+
                 [730, 0]
             ]),
-            new BoundsPolygon([
-                [550, 0],
-                [550, 1280],
-                [474, 1280],
+            new BoundsPolygon([
+
+                [550, 0]
+,
+                [550, 1280],
+
+                [474, 1280],
+
                 [474, 0]
             ]),
-            new BoundsPolygon([
-                [294, 0],
-                [294, 1280],
-                [218, 1280],
+            new BoundsPolygon([
+
+                [294, 0]
+,
+                [294, 1280],
+
+                [218, 1280],
+
                 [218, 0]
             ]),
-            new BoundsPolygon([
-                [38, 0],
-                [38, 1280],
-                [0, 1280],
+            new BoundsPolygon([
+
+                [38, 0]
+,
+                [38, 1280],
+
+                [0, 1280],
+
                 [0, 0]
             ]),
         ]);
         
-        var mapOverlay = {
+        var mapOverlay = {
+
             "Clear": clear,
-            "Map bounds": bounds
+            "Map bounds": bounds
+
         };
     
           // Map setup
@@ -126,10 +177,14 @@
                 crs: L.CRS.Simple, 
                 maxZoom: 5,
                 layers: [clear, bounds],
-                fullscreenControl: true,
-                fullscreenControlOptions: {
-                    position: 'topleft'
-                }}).setView([85.8125, 1114.6875], 4);
+                fullscreenControl: true,
+
+                fullscreenControlOptions: {
+
+                    position: 'topleft'
+
+                }
+}).setView([85.8125, 1114.6875], 4);
             
             stripes.addTo(map);
             
@@ -138,7 +193,8 @@
             
             // Set clear layer as active
             
-            map.removeLayer(bounds);
+            map.removeLayer(bounds);
+
             map.addLayer(clear);
             
             // Map layers
@@ -200,7 +256,8 @@
         //L.marker([25.878994, 79.453125], {icon: QuestIcon}).addTo(map).bindPopup("Quest: Retrieve the harp from the Dragoon's Caverns south of Castle Ironfist and return it to Andrew Besper in Castle Ironfist.");
         //L.marker([18.895893, 91.582031], {icon: ArmorIcon}).addTo(map).bindPopup("Metalweave Armory. Buy: L2 Leather, Chainmail, Shield, Helm or Gauntlets. Special: L3 Leather, Helm or Gauntlets.");
         //L.marker([14.43468, 84.199219], {icon: StablesIcon}).addTo(map).bindPopup("Royal Lines. New Sorpigal, M, W, F (2 days), Free Haven, S, Tu (4 days), Arena, Sun (1 day)");
-        // Default Stripes.
+        // Default Stripes.
+
         
         // Map coordinates on right click
         
@@ -210,8 +267,10 @@
         
         // Map grid setup
         
-            var options = {interval: 256,
-                showOriginLabel: false,
+            var options = {interval: 256,
+
+                showOriginLabel: false,
+
                 redraw: 'move',
             };
             L.simpleGraticule(options).addTo(map);
